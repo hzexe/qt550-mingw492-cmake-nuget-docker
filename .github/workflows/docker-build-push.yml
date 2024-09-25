@@ -21,8 +21,14 @@ jobs:
 
     - name: Switch Docker to Windows containers
       run: |
-        # Switch Docker to Windows containers
-        & "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchDaemon
+        # List available contexts
+        docker context ls
+        # Create a new context for Windows containers if it doesn't exist
+        if (-not (docker context ls --format "{{.Name}}" | Where-Object { $_ -eq "default-windows" })) {
+          docker context create default-windows --docker "host=npipe:////./pipe/docker_engine"
+        }
+        # Switch to the Windows context
+        docker context use default-windows
 
     - name: Ensure Docker is using Windows containers
       run: |
