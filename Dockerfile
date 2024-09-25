@@ -1,5 +1,5 @@
 # 第一阶段：设置环境变量并运行脚本
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
 
 COPY tools C:\\tools
 
