@@ -11,6 +11,8 @@ ENV Path="C:\Qt\Qt5.5.0\5.5\mingw492_32\bin;C:\Qt\Qt5.5.0\5.5\mingw492_32\tools\
 COPY Qt C:
 COPY tools C:\\tools
 
+RUN dir C:\\tools
+
 # 运行 PowerShell 脚本
 RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command C:\\tools\\setup.ps1
 
