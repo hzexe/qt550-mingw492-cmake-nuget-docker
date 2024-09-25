@@ -50,24 +50,6 @@ try {
     $nugetExe = 'C:\ProgramData\nuget\bin\nuget.exe'
     DownloadWithRetry -Url 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe' -OutputFile $nugetExe
 
-    # 下载并安装 Qt
-    Write-Host "Downloading and installing Qt..."
-    $qtInstaller = 'C:\qt-5.5.0-mingw492_32.exe'
-    DownloadWithRetry -Url 'https://download.qt.io/new_archive/qt/5.5/5.5.0/qt-opensource-windows-x86-mingw492-5.5.0.exe' -OutputFile $qtInstaller
-
-    # 创建安装目录
-    $qtInstallDir = 'C:\Qt\Qt5.5.0\5.5\mingw492_32'
-    if (Test-Path $qtInstallDir) {
-        Remove-Item -Recurse -Force $qtInstallDir
-    }
-    New-Item -ItemType Directory -Path $qtInstallDir -Force
-
-    # 运行 Qt 安装程序，确保安装 MinGW 组件
-    Write-Host "Running Qt installer..."
-    $installArgs = "/S /D=$qtInstallDir /COMPONENTS=qtbase,mingw"
-    Start-Process -FilePath $qtInstaller -ArgumentList $installArgs -Wait -ErrorAction Stop
-    Remove-Item -Force $qtInstaller -ErrorAction Stop
-
     # 验证安装
     Write-Host "Verifying installations..."
     qmake.exe -v
