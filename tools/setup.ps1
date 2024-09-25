@@ -40,6 +40,7 @@ try {
 
     # 下载并安装 NuGet
     Write-Host "Downloading and installing NuGet..."
+    mkdir -p "C:\Program Files\CMake\bin" "C:\ProgramData\nuget\bin"
     $nugetExe = 'C:\ProgramData\nuget\bin\nuget.exe'
     DownloadWithRetry -Url 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe' -OutputFile $nugetExe
 
