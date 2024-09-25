@@ -9,6 +9,13 @@ function DownloadWithRetry {
         [int]$RetryInterval = 5
     )
 
+    # 确保输出文件的目录存在
+    $outputDir = Split-Path -Parent $OutputFile
+    if (-not (Test-Path $outputDir)) {
+        Write-Host "Creating directory: $outputDir"
+        New-Item -ItemType Directory -Path $outputDir -Force
+    }
+
     for ($i = 0; $i -lt $MaxRetries; $i++) {
         try {
             Write-Host "Downloading $Url to $OutputFile (Attempt $i)..."
@@ -40,7 +47,6 @@ try {
 
     # 下载并安装 NuGet
     Write-Host "Downloading and installing NuGet..."
-    mkdir -p "C:\Program Files\CMake\bin" "C:\ProgramData\nuget\bin"
     $nugetExe = 'C:\ProgramData\nuget\bin\nuget.exe'
     DownloadWithRetry -Url 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe' -OutputFile $nugetExe
 
