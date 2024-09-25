@@ -1,0 +1,38 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log in to GitHub Container Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Set up Docker Buildx
+      run: docker buildx create --use
+
+    - name: Build Docker image
+      run: |
+        $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+        $imageTag = "ghcr.io/${{ github.repository }}/qt550-mingw492-cmake-nuget:$timestamp"
+        $latestTag = "ghcr.io/${{ github.repository }}/qt550-mingw492-cmake-nuget:latest"
+        docker build -t $imageTag -t $latestTag .
+
+    - name: Push Docker image
+      run: |
+        $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+        $imageTag = "ghcr.io/${{ github.repository }}/qt550-mingw492-cmake-nuget:$timestamp"
+        $latestTag = "ghcr.io/${{ github.repository }}/qt550-mingw492-cmake-nuget:latest"
+        docker push $imageTag
+        docker push $latestTag
