@@ -19,6 +19,15 @@ jobs:
     - name: Log in to GitHub Container Registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+    - name: Ensure Docker is using Windows containers
+      run: |
+        # Check if Docker is using Windows containers
+        $dockerInfo = docker info --format "{{.OSType}}"
+        if ($dockerInfo -ne "windows") {
+          Write-Host "Docker is not using Windows containers. This should not happen on a Windows runner."
+          exit 1
+        }
+
     - name: Build Docker image
       run: |
         $timestamp = Get-Date -Format "yyyyMMddHHmmss"
