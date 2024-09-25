@@ -19,6 +19,11 @@ jobs:
     - name: Log in to GitHub Container Registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+    - name: Switch Docker to Windows containers
+      run: |
+        # Switch Docker to Windows containers
+        & "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchDaemon
+
     - name: Ensure Docker is using Windows containers
       run: |
         # Check if Docker is using Windows containers
