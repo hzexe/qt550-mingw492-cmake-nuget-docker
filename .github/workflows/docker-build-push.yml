@@ -39,6 +39,11 @@ jobs:
           exit 1
         }
 
+    - name: Extract Qt files
+      run: |
+        # 解压分卷文件
+        7z x 3rd/qt/Qt.7z.001 -o. -y
+
     - name: Build Docker image
       run: |
         $timestamp = Get-Date -Format "yyyyMMddHHmmss"
