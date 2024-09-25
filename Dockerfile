@@ -1,7 +1,7 @@
 # 第一阶段：设置环境变量并运行脚本
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-COPY tools C:\tools
+COPY tools C:\\tools
 
 # 设置环境变量
 ENV QT_VERSION=5.5.0
